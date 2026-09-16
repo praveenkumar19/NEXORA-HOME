@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#080c14">
+  <title>NEXORA HOME — Smart Living OS</title>
+  <meta name="description" content="Premium smart home management dashboard for energy optimization, device orchestration, and intelligent automation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient-glow glow-1" aria-hidden="true"></div>
+  <div class="ambient-glow glow-2" aria-hidden="true"></div>
+  <div class="ambient-glow glow-3" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="app-layout" id="app-layout">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside class="sidebar" id="sidebar" aria-label="Main Navigation">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span class="brand-dot"></span>
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">NEXORA</span>
+          <span class="brand-subtitle">SMART LIVING OS</span>
+        </div>
+        <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" aria-label="Toggle Sidebar" title="Collapse (Ctrl+B)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary">
+        <div class="nav-section-title">Control Center</div>
+        <ul class="nav-list">
+          <li><a href="#dashboard" class="nav-link active" data-section="dashboard" data-tooltip="Dashboard">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+            <span class="nav-text">Dashboard</span>
+          </a></li>
+          <li><a href="#rooms" class="nav-link" data-section="rooms" data-tooltip="Rooms">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="nav-text">Rooms</span>
+            <span class="nav-badge" id="nav-badge-rooms">5</span>
+          </a></li>
+          <li><a href="#devices" class="nav-link" data-section="devices" data-tooltip="Devices">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.2 4.7 3 6v1a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-1c1.8-1.3 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg>
+            <span class="nav-text">Devices</span>
+            <span class="nav-badge live" id="nav-badge-devices">8/12</span>
+          </a></li>
+          <li><a href="#energy" class="nav-link" data-section="energy" data-tooltip="Energy">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span class="nav-text">Energy</span>
+          </a></li>
+          <li><a href="#analytics" class="nav-link" data-section="analytics" data-tooltip="Analytics">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span class="nav-text">Analytics</span>
+          </a></li>
+          <li><a href="#automation" class="nav-link" data-section="automation" data-tooltip="Automation">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><circle cx="8" cy="10" r="1.5"/><circle cx="16" cy="10" r="1.5"/><path d="M10 13h4"/></svg>
+            <span class="nav-text">Automation</span>
+            <span class="nav-badge success">Active</span>
+          </a></li>
+        </ul>
+
+        <div class="nav-section-title">Security & System</div>
+        <ul class="nav-list">
+          <li><a href="#security" class="nav-link" data-section="security" data-tooltip="Security">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span class="nav-text">Security</span>
+            <span class="nav-badge alert" id="nav-badge-security">Armed</span>
+          </a></li>
+          <li><button type="button" class="nav-link nav-btn" id="sidebar-notifications-btn" data-tooltip="Notifications">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="nav-text">Notifications</span>
+            <span class="nav-badge notification-count" id="sidebar-unread-count">3</span>
+          </button></li>
+          <li><button type="button" class="nav-link nav-btn" id="sidebar-settings-btn" data-tooltip="Settings">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span class="nav-text">Settings</span>
+          </button></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-card" id="user-profile-trigger">
+          <div class="user-avatar">
+            <span>PK</span>
+            <span class="status-indicator online"></span>
+          </div>
+          <div class="user-meta">
+            <span class="user-name" id="profile-name-display">Praveen Kumar</span>
+            <span class="user-role">Home Owner • Pro</span>
+          </div>
+          <button class="user-action-btn" aria-label="Quick Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================== MAIN ==================== -->
+    <div class="main-wrapper">
+      <header class="top-header" id="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Open Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div class="greeting-container">
+            <h1 class="greeting-heading" id="greeting-title">Good Evening, Praveen 👋</h1>
+            <p class="greeting-subtext" id="greeting-subtext">Here's what's happening in your home today.</p>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="search-bar" id="search-trigger" aria-label="Open command palette">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="search-placeholder">Search or run a command...</span>
+            <kbd class="search-shortcut">⌘K</kbd>
+          </button>
+
+          <div class="header-actions">
+            <div class="header-chip clock-chip" id="live-clock" title="Local time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+              <span id="live-clock-text">--:--</span>
+            </div>
+
+            <div class="iot-status-pill" title="IoT Mesh: 12 nodes online">
+              <span class="iot-pulse"></span>
+              <span class="iot-text">Mesh Online</span>
+            </div>
+
+            <button class="action-icon-btn theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme" title="Toggle Dark/Light (Ctrl+J)">
+              <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+
+            <div class="notification-wrapper">
+              <button class="action-icon-btn notif-btn" id="notif-bell-btn" aria-label="Notifications">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="notification-badge" id="header-unread-badge">3</span>
+              </button>
+
+              <div class="notification-dropdown" id="notification-dropdown">
+                <div class="notif-dropdown-header">
+                  <div class="notif-header-title">
+                    <span>Notifications</span>
+                    <span class="notif-counter-tag" id="notif-header-count">3 unread</span>
+                  </div>
+                  <button class="notif-mark-read-btn" id="notif-mark-all-read">Mark all read</button>
+                </div>
+                <div class="notif-dropdown-body" id="notification-list"></div>
+                <div class="notif-dropdown-footer">
+                  <button class="notif-simulate-btn" id="simulate-alert-btn">⚡ Simulate IoT Event</button>
+                </div>
+              </div>
+            </div>
+
+            <button class="header-avatar" id="header-avatar-btn" aria-label="Profile & Settings" title="Profile">PK</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-content" id="main-content">
+
+        <!-- Security Alert Banner -->
+        <div class="security-banner alert-state" id="security-alert-banner" role="alert">
+          <div class="alert-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="alert-text-content">
+            <span class="alert-badge">● LIVE SECURITY EVENT</span>
+            <p class="alert-title" id="alert-banner-title">Motion detected in Backyard</p>
+            <p class="alert-time">Backyard Camera #02 • 2 minutes ago</p>
+          </div>
+          <div class="alert-actions">
+            <button class="btn-sm btn-outline" id="view-camera-alert-btn">View Camera</button>
+            <button class="btn-sm btn-dismiss" id="dismiss-alert-btn">Dismiss</button>
+          </div>
+        </div>
+
+        <!-- Quick Scenes -->
+        <section class="scenes-section" aria-label="Quick Scenes">
+          <div class="section-title-row">
+            <div>
+              <h2 class="section-title">Quick Scenes</h2>
+              <span class="section-subtitle">Instant multi-device presets</span>
+            </div>
+            <span class="section-meta" id="scene-last-run">Last run: Just now</span>
+          </div>
+          <div class="scenes-grid">
+            <button class="scene-card" data-scene="morning">
+              <span class="scene-icon-wrap morning">☀️</span>
+              <div class="scene-info"><span class="scene-name">Morning</span><span class="scene-desc">Lights 100% • Coffee ON</span></div>
+            </button>
+            <button class="scene-card" data-scene="night">
+              <span class="scene-icon-wrap night">🌙</span>
+              <div class="scene-info"><span class="scene-name">Night</span><span class="scene-desc">Lights OFF • Lock doors</span></div>
+            </button>
+            <button class="scene-card active" data-scene="home">
+              <span class="scene-icon-wrap home">🏠</span>
+              <div class="scene-info"><span class="scene-name">Home</span><span class="scene-desc">Balanced comfort</span></div>
+            </button>
+            <button class="scene-card" data-scene="away">
+              <span class="scene-icon-wrap away">🚪</span>
+              <div class="scene-info"><span class="scene-name">Away</span><span class="scene-desc">Eco • Cameras armed</span></div>
+            </button>
+            <button class="scene-card" data-scene="movie">
+              <span class="scene-icon-wrap movie">🎬</span>
+              <div class="scene-info"><span class="scene-name">Movie</span><span class="scene-desc">TV ON • Lights 15%</span></div>
+            </button>
+            <button class="scene-card" data-scene="sleep">
+              <span class="scene-icon-wrap sleep">💤</span>
+              <div class="scene-info"><span class="scene-name">Sleep</span><span class="scene-desc">AC 24°C • Silent</span></div>
+            </button>
+          </div>
+        </section>
+
+        <!-- Overview Metrics -->
+        <section class="overview-section" aria-label="Home Overview">
+          <div class="metrics-grid">
+            <div class="metric-card" id="card-temperature">
+              <div class="metric-card-header">
+                <div class="metric-icon-wrap temp-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+                </div>
+                <div class="status-indicator-pill normal"><span class="dot"></span>Optimal</div>
+              </div>
+              <div class="metric-card-body">
+                <div class="metric-value-row">
+                  <span class="metric-value" id="overview-temp-value">24</span>
+                  <span class="metric-unit">°C</span>
+                </div>
+                <span class="metric-label">Indoor Temperature</span>
+                <div class="metric-footer">
+                  <span class="metric-subtext">Target: <span id="overview-target-temp">24°C</span></span>
+                  <span class="metric-trend positive">±0.2°</span>
+                </div>
+              </div>
+              <svg class="metric-sparkline" viewBox="0 0 100 30" preserveAspectRatio="none">
+                <path d="M0,20 L10,18 L20,22 L30,16 L40,20 L50,14 L60,18 L70,12 L80,16 L90,14 L100,15" fill="none" stroke="url(#sparkGrad1)" stroke-width="2"/>
+                <defs><linearGradient id="sparkGrad1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f97316"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
+              </svg>
+            </div>
+
+            <div class="metric-card" id="card-humidity">
+              <div class="metric-card-header">
+                <div class="metric-icon-wrap humidity-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <div class="status-indicator-pill success"><span class="dot"></span>Comfortable</div>
+              </div>
+              <div class="metric-card-body">
+                <div class="metric-value-row">
+                  <span class="metric-value" id="overview-humidity-value">62</span>
+                  <span class="metric-unit">%</span>
+                </div>
+                <span class="metric-label">Humidity Level</span>
+                <div class="metric-footer">
+                  <span class="metric-subtext">Indoor Air Quality</span>
+                  <span class="metric-trend neutral">Ideal</span>
+                </div>
+              </div>
+              <svg class="metric-sparkline" viewBox="0 0 100 30" preserveAspectRatio="none">
+                <path d="M0,15 L10,14 L20,16 L30,13 L40,15 L50,12 L60,14 L70,11 L80,13 L90,12 L100,13" fill="none" stroke="url(#sparkGrad2)" stroke-width="2"/>
+                <defs><linearGradient id="sparkGrad2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
+              </svg>
+            </div>
+
+            <div class="metric-card" id="card-energy">
+              <div class="metric-card-header">
+                <div class="metric-icon-wrap energy-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <div class="status-indicator-pill warning"><span class="dot"></span><span id="overview-power-draw">1,480 W</span></div>
+              </div>
+              <div class="metric-card-body">
+                <div class="metric-value-row">
+                  <span class="metric-value" id="overview-energy-value">3.2</span>
+                  <span class="metric-unit">kWh</span>
+                </div>
+                <span class="metric-label">Energy Today</span>
+                <div class="metric-footer">
+                  <span class="metric-subtext">Est. <span id="overview-cost-est">₹742</span>/mo</span>
+                  <span class="metric-trend positive">↓ 8%</span>
+                </div>
+              </div>
+              <svg class="metric-sparkline" viewBox="0 0 100 30" preserveAspectRatio="none">
+                <path d="M0,22 L10,20 L20,18 L30,19 L40,15 L50,17 L60,13 L70,15 L80,11 L90,13 L100,10" fill="none" stroke="url(#sparkGrad3)" stroke-width="2"/>
+                <defs><linearGradient id="sparkGrad3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs>
+              </svg>
+            </div>
+
+            <div class="metric-card" id="card-devices">
+              <div class="metric-card-header">
+                <div class="metric-icon-wrap devices-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <div class="status-indicator-pill live"><span class="dot pulse"></span>Real-time</div>
+              </div>
+              <div class="metric-card-body">
+                <div class="metric-value-row">
+                  <span class="metric-value" id="overview-active-devices">8</span>
+                  <span class="metric-fraction">/ 12</span>
+                </div>
+                <span class="metric-label">Devices Active</span>
+                <div class="metric-footer">
+                  <span class="metric-subtext">4 standby</span>
+                  <button class="metric-action-link" id="all-devices-shortcut">View all →</button>
+                </div>
+              </div>
+              <svg class="metric-sparkline" viewBox="0 0 100 30" preserveAspectRatio="none">
+                <path d="M0,20 L10,18 L20,15 L30,14 L40,12 L50,10 L60,11 L70,9 L80,8 L90,7 L100,6" fill="none" stroke="url(#sparkGrad4)" stroke-width="2"/>
+                <defs><linearGradient id="sparkGrad4" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#059669"/></linearGradient></defs>
+              </svg>
+            </div>
+          </div>
+        </section>
+
+        <!-- Main 2-col Grid -->
+        <div class="dashboard-main-grid">
+          <div class="dashboard-col-primary">
+
+            <!-- Devices -->
+            <section class="devices-section" id="section-devices" aria-label="Devices">
+              <div class="devices-section-header">
+                <div>
+                  <h2 class="section-title">My Devices</h2>
+                  <p class="section-subtitle">Real-time power orchestration across all rooms</p>
+                </div>
+                <div class="room-filter-pills" role="tablist" aria-label="Filter by room">
+                  <button class="filter-pill active" data-room="all" role="tab" aria-selected="true">All</button>
+                  <button class="filter-pill" data-room="Living Room" role="tab" aria-selected="false">Living Room</button>
+                  <button class="filter-pill" data-room="Bedroom" role="tab" aria-selected="false">Bedroom</button>
+                  <button class="filter-pill" data-room="Kitchen" role="tab" aria-selected="false">Kitchen</button>
+                  <button class="filter-pill" data-room="Bathroom" role="tab" aria-selected="false">Bathroom</button>
+                  <button class="filter-pill" data-room="Study Room" role="tab" aria-selected="false">Study</button>
+                </div>
+              </div>
+              <div class="devices-grid" id="devices-container"></div>
+            </section>
+
+            <!-- Rooms -->
+            <section class="rooms-section" id="section-rooms" aria-label="Rooms">
+              <div class="section-title-row">
+                <div>
+                  <h2 class="section-title">Room Management</h2>
+                  <p class="section-subtitle">Zone breakdown with environmental telemetry</p>
+                </div>
+                <button class="btn-sm btn-outline" id="manage-zones-btn">Manage Zones</button>
+              </div>
+              <div class="rooms-grid" id="rooms-container"></div>
+            </section>
+
+            <!-- Energy -->
+            <section class="energy-section" id="section-energy" aria-label="Energy">
+              <div class="energy-header">
+                <div>
+                  <h2 class="section-title">Energy Monitoring</h2>
+                  <p class="section-subtitle">Live load & historical consumption</p>
+                </div>
+                <div class="chart-filter-group" role="group" aria-label="Time range">
+                  <button class="chart-filter-btn active" data-period="daily">Daily</button>
+                  <button class="chart-filter-btn" data-period="weekly">Weekly</button>
+                  <button class="chart-filter-btn" data-period="monthly">Monthly</button>
+                </div>
+              </div>
+
+              <div class="energy-stats-bar">
+                <div class="energy-stat-item">
+                  <span class="stat-label">Today</span>
+                  <span class="stat-value" id="energy-stat-today">3.2 <small>kWh</small></span>
+                  <span class="stat-delta positive">↓ 14% vs yesterday</span>
+                </div>
+                <div class="energy-stat-item">
+                  <span class="stat-label">This Week</span>
+                  <span class="stat-value" id="energy-stat-week">21.7 <small>kWh</small></span>
+                  <span class="stat-delta neutral">Avg 3.1 kWh/day</span>
+                </div>
+                <div class="energy-stat-item">
+                  <span class="stat-label">This Month</span>
+                  <span class="stat-value" id="energy-stat-month">87.4 <small>kWh</small></span>
+                  <span class="stat-delta positive">Within budget</span>
+                </div>
+                <div class="energy-stat-item highlight">
+                  <span class="stat-label">Est. Bill</span>
+                  <span class="stat-value cost-value" id="energy-stat-bill">₹742</span>
+                  <span class="stat-delta">Target ₹900</span>
+                </div>
+              </div>
+
+              <div class="energy-chart-container">
+                <div class="chart-canvas-wrapper" id="chart-wrapper">
+                  <div class="chart-svg-host" id="energy-chart-svg-host"></div>
+                  <div class="chart-tooltip" id="chart-tooltip"></div>
+                </div>
+                <div class="chart-legend">
+                  <span class="legend-item"><span class="legend-color main-energy"></span> Consumption (kWh)</span>
+                  <span class="legend-item"><span class="legend-color avg-energy"></span> Baseline</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="dashboard-col-secondary">
+
+            <!-- AC Panel -->
+            <section class="climate-card" id="section-ac-control" aria-label="Air Conditioner">
+              <div class="climate-header">
+                <div class="climate-title-wrap">
+                  <div class="device-icon-circle ac">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 16a4 4 0 0 1-4-4 4 4 0 0 1 4-4"/><path d="M16 8a4 4 0 0 1 4 4 4 4 0 0 1-4 4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+                  </div>
+                  <div>
+                    <h3 class="card-heading">Air Conditioner</h3>
+                    <span class="card-subheading">Living Room • Dual Inverter</span>
+                  </div>
+                </div>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="ac-master-power" checked aria-label="AC Power">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="climate-dial-container">
+                <div class="circular-dial" id="ac-dial">
+                  <svg class="dial-svg" viewBox="0 0 220 220">
+                    <circle class="dial-bg-circle" cx="110" cy="110" r="90"></circle>
+                    <circle class="dial-track-circle" cx="110" cy="110" r="78"></circle>
+                    <circle class="dial-progress-circle" id="dial-progress" cx="110" cy="110" r="90"></circle>
+                  </svg>
+                  <div class="dial-center-content">
+                    <span class="dial-current-label">TARGET</span>
+                    <div class="dial-temp-row">
+                      <span class="dial-temp-value" id="ac-temp-display">24</span>
+                      <span class="dial-temp-deg">°C</span>
+                    </div>
+                    <span class="dial-room-current">Room: <strong id="ac-ambient-temp">24.2°C</strong></span>
+                  </div>
+                </div>
+
+                <div class="dial-controls">
+                  <button class="temp-stepper-btn minus" id="ac-temp-minus" aria-label="Decrease">−</button>
+                  <span class="temp-range-label">16 – 30°C</span>
+                  <button class="temp-stepper-btn plus" id="ac-temp-plus" aria-label="Increase">+</button>
+                </div>
+              </div>
+
+              <div class="climate-controls-group">
+                <span class="group-label">MODE</span>
+                <div class="mode-selector-grid" role="radiogroup">
+                  <button class="mode-btn active" data-mode="cool" role="radio" aria-checked="true"><span class="mode-icon">❄️</span><span class="mode-text">Cool</span></button>
+                  <button class="mode-btn" data-mode="dry" role="radio" aria-checked="false"><span class="mode-icon">💧</span><span class="mode-text">Dry</span></button>
+                  <button class="mode-btn" data-mode="fan" role="radio" aria-checked="false"><span class="mode-icon">🌀</span><span class="mode-text">Fan</span></button>
+                  <button class="mode-btn" data-mode="heat" role="radio" aria-checked="false"><span class="mode-icon">🔥</span><span class="mode-text">Heat</span></button>
+                </div>
+              </div>
+
+              <div class="climate-controls-group">
+                <span class="group-label">FAN SPEED</span>
+                <div class="fan-speed-tabs" role="radiogroup">
+                  <button class="speed-tab" data-speed="low">Low</button>
+                  <button class="speed-tab active" data-speed="medium">Medium</button>
+                  <button class="speed-tab" data-speed="high">High</button>
+                  <button class="speed-tab" data-speed="auto">Auto</button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Security -->
+            <section class="security-card" id="section-security-hub" aria-label="Security">
+              <div class="security-card-header">
+                <div class="security-icon-circle secure" id="security-status-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div>
+                  <h3 class="card-heading" id="security-state-title">Home Security</h3>
+                  <span class="security-badge-live" id="security-state-subtitle">Your home is secure</span>
+                </div>
+              </div>
+
+              <div class="security-items-list">
+                <div class="security-item"><div class="sec-item-left"><span class="sec-dot secure"></span><span class="sec-item-name">Door Locks</span></div><span class="sec-item-status" id="sec-status-doors">Locked</span></div>
+                <div class="security-item"><div class="sec-item-left"><span class="sec-dot secure"></span><span class="sec-item-name">Cameras</span></div><span class="sec-item-status online" id="sec-status-cams">Online (4/4)</span></div>
+                <div class="security-item"><div class="sec-item-left"><span class="sec-dot secure"></span><span class="sec-item-name">Windows</span></div><span class="sec-item-status" id="sec-status-windows">All Secure</span></div>
+                <div class="security-item"><div class="sec-item-left"><span class="sec-dot secure"></span><span class="sec-item-name">Motion</span></div><span class="sec-item-status active" id="sec-status-motion">Enabled</span></div>
+              </div>
+
+              <div class="security-actions-row">
+                <button class="btn-security-mode active" data-secmode="arm" id="sec-btn-arm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Arm</span></button>
+                <button class="btn-security-mode" data-secmode="night" id="sec-btn-night"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span>Night</span></button>
+                <button class="btn-security-mode" data-secmode="disarm" id="sec-btn-disarm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Disarm</span></button>
+              </div>
+            </section>
+
+            <!-- Automations -->
+            <section class="automation-card" id="section-automations" aria-label="Automations">
+              <div class="section-title-row">
+                <div>
+                  <h3 class="card-heading">Smart Automations</h3>
+                  <span class="card-subheading">Intelligent triggers & execution</span>
+                </div>
+                <button class="btn-sm btn-outline" id="add-automation-btn">+ New</button>
+              </div>
+              <div class="automation-list" id="automation-container"></div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Command Palette -->
+  <div class="modal-backdrop" id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+    <div class="modal-box search-modal-box">
+      <div class="search-input-header">
+        <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-modal-input" id="global-search-input" placeholder="Search devices, rooms, automations..." autocomplete="off" autofocus>
+        <button class="modal-close-btn" id="close-search-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="search-modal-body">
+        <div class="search-quick-tags">
+          <span class="tag-label">FILTER:</span>
+          <button class="search-tag" data-filter="light">💡 Lights</button>
+          <button class="search-tag" data-filter="climate">❄️ Climate</button>
+          <button class="search-tag" data-filter="security">🔒 Security</button>
+          <button class="search-tag" data-filter="kitchen">🍳 Kitchen</button>
+        </div>
+        <div class="search-results-list" id="search-results-container"></div>
+      </div>
+      <div class="search-modal-footer">
+        <span class="search-hint"><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+        <span class="search-hint"><kbd>↵</kbd> Select</span>
+        <span class="search-hint"><kbd>ESC</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Modal -->
+  <div class="modal-backdrop" id="device-modal" role="dialog" aria-modal="true">
+    <div class="modal-box device-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-device-icon" id="device-modal-icon">💡</span>
+          <div>
+            <h3 class="modal-title" id="device-modal-title">Device</h3>
+            <span class="modal-subtitle" id="device-modal-room">Room</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-device-modal-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="device-modal-content"></div>
+      <div class="modal-footer">
+        <button class="btn-sm btn-outline" id="device-modal-schedule-btn">Set Schedule</button>
+        <button class="btn-sm btn-primary" id="device-modal-done-btn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Camera Modal — Live Feed with Permission Flow -->
+  <div class="modal-backdrop" id="camera-modal" role="dialog" aria-modal="true" aria-labelledby="camera-modal-title">
+    <div class="modal-box camera-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="live-dot-pulse" id="cam-live-indicator" style="display:none;"></div>
+          <div>
+            <h3 class="modal-title" id="camera-modal-title">Live Camera Monitor</h3>
+            <span class="modal-subtitle" id="camera-modal-subtitle">Grant access to stream your camera</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-camera-modal-btn" aria-label="Close">✕</button>
+      </div>
+
+      <div class="camera-stream-canvas-wrap">
+
+        <div class="camera-state camera-state-prompt" id="cam-state-prompt">
+          <div class="cam-prompt-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M23 7l-7 5 7 5V7z"></path>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+            </svg>
+          </div>
+          <h4 class="cam-prompt-title">Camera Access Required</h4>
+          <p class="cam-prompt-text">
+            NEXORA needs your permission to open your device camera and monitor your home in real time.
+            Video never leaves your device — this is a local preview.
+          </p>
+          <div class="cam-prompt-actions">
+            <button class="btn-sm btn-primary" id="cam-enable-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;">
+                <path d="M23 7l-7 5 7 5V7z"></path>
+                <rect x="1" y="5" width="15" height="14" rx="2"></rect>
+              </svg>
+              Enable Camera
+            </button>
+            <button class="btn-sm btn-outline" id="cam-skip-btn">Use Simulated Feed</button>
+          </div>
+          <p class="cam-prompt-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;vertical-align:-2px;">
+              <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Works over HTTPS or localhost. Your privacy is respected.
+          </p>
+        </div>
+
+        <div class="camera-state camera-state-loading" id="cam-state-loading" style="display:none;">
+          <div class="cam-spinner"></div>
+          <h4 class="cam-prompt-title">Waiting for Permission…</h4>
+          <p class="cam-prompt-text">Please allow camera access in your browser prompt.</p>
+        </div>
+
+        <div class="camera-state camera-state-error" id="cam-state-error" style="display:none;">
+          <div class="cam-error-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <h4 class="cam-prompt-title" id="cam-error-title">Camera Access Denied</h4>
+          <p class="cam-prompt-text" id="cam-error-text">
+            Permission was blocked. You can enable it in your browser settings, or use the simulated feed.
+          </p>
+          <div class="cam-prompt-actions">
+            <button class="btn-sm btn-primary" id="cam-retry-btn">Retry</button>
+            <button class="btn-sm btn-outline" id="cam-fallback-btn">Use Simulated Feed</button>
+          </div>
+        </div>
+
+        <div class="camera-feed-viewport" id="camera-feed-viewport" style="display:none;">
+          <video id="camera-video" autoplay playsinline muted></video>
+          <canvas id="camera-overlay-canvas" class="camera-overlay-canvas"></canvas>
+
+          <div class="cam-hud-top">
+            <span class="cam-rec"><span class="rec-dot"></span> <span id="cam-rec-label">REC</span> <span id="cam-rec-time">[00:00:00]</span></span>
+            <span class="cam-timestamp" id="cam-live-clock">--:--:--</span>
+          </div>
+
+          <div class="cam-crosshair">
+            <div class="crosshair-box"></div>
+            <div class="motion-tag" id="cam-source-tag">SOURCE: DEVICE CAMERA</div>
+          </div>
+
+          <div class="cam-hud-bottom">
+            <span id="cam-res-label">RES: —</span>
+            <span id="cam-fps-label">FPS: —</span>
+            <span id="cam-source-label">SIG: LOCAL</span>
+            <span id="cam-ir-label">IR: OFF</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="camera-actions-bar">
+        <button class="btn-sm btn-outline" id="cam-flip-btn" title="Switch front/back camera" style="display:none;">🔄 Flip</button>
+        <button class="btn-sm btn-outline" id="cam-siren-btn">🚨 Siren</button>
+        <button class="btn-sm btn-outline" id="cam-snapshot-btn">📸 Snapshot</button>
+        <button class="btn-sm btn-primary" id="cam-dismiss-notice-btn">Dismiss & Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="settings-modal" role="dialog" aria-modal="true">
+    <div class="modal-box settings-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <div>
+            <h3 class="modal-title">System Settings</h3>
+            <span class="modal-subtitle">Preferences, units, and credentials</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="close-settings-btn" aria-label="Close">✕</button>
+      </div>
+      <div class="settings-body">
+        <div class="settings-group">
+          <h4 class="settings-group-title">User Profile</h4>
+          <div class="settings-row">
+            <label for="setting-user-name" class="settings-label"><span>Display Name</span><small>Shown across dashboards</small></label>
+            <input type="text" class="settings-input" id="setting-user-name" value="Praveen Kumar">
+          </div>
+          <div class="settings-row">
+            <label for="setting-home-name" class="settings-label"><span>Smart Home Name</span><small>Primary hub identifier</small></label>
+            <input type="text" class="settings-input" id="setting-home-name" value="NEXORA Residence">
+          </div>
+        </div>
+        <div class="settings-group">
+          <h4 class="settings-group-title">Telemetry & Units</h4>
+          <div class="settings-row">
+            <label class="settings-label"><span>Temperature Unit</span><small>Global scale</small></label>
+            <div class="unit-toggle-group">
+              <button class="unit-btn active" data-tempunit="C">°C</button>
+              <button class="unit-btn" data-tempunit="F">°F</button>
+            </div>
+          </div>
+          <div class="settings-row">
+            <label class="settings-label"><span>Currency</span><small>Tariff estimation symbol</small></label>
+            <select class="settings-select" id="setting-currency">
+              <option value="₹" selected>₹ INR</option>
+              <option value="$">$ USD</option>
+              <option value="€">€ EUR</option>
+              <option value="£">£ GBP</option>
+            </select>
+          </div>
+        </div>
+        <div class="settings-group">
+          <h4 class="settings-group-title">Live Simulation</h4>
+          <div class="settings-row">
+            <label class="settings-label" for="setting-simulation-toggle"><span>Sensor Telemetry Drift</span><small>Realistic fluctuations</small></label>
+            <label class="toggle-switch"><input type="checkbox" id="setting-simulation-toggle" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="settings-row">
+            <label class="settings-label" for="setting-sound-toggle"><span>Audio Feedback</span><small>Subtle click sounds</small></label>
+            <label class="toggle-switch"><input type="checkbox" id="setting-sound-toggle" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="settings-row">
+            <label class="settings-label"><span>Reset to Defaults</span><small>Clear localStorage data</small></label>
+            <button class="btn-sm btn-danger" id="reset-factory-data-btn">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-sm btn-outline" id="cancel-settings-btn">Cancel</button>
+        <button class="btn-sm btn-primary" id="save-settings-btn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
